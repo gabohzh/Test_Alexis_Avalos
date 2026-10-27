@@ -1,0 +1,95 @@
+<div class="form-page">
+  <p-toast />
+
+  <div class="form-header">
+    <p-button icon="pi pi-arrow-left" [text]="true" severity="secondary" (onClick)="goBack()" styleClass="back-btn" />
+    <div class="header-text">
+      <h1>{{ isEdit ? 'Editar Cliente' : 'Nuevo Cliente' }}</h1>
+      <p>{{ isEdit ? 'Modifica los datos del cliente' : 'Completa el formulario para registrar un nuevo cliente' }}</p>
+    </div>
+  </div>
+
+  <div class="form-container">
+    <div class="form-card">
+
+      @if (loading) {
+      <div class="loading-state">
+        <i class="pi pi-spin pi-spinner"></i>
+        <span>Cargando cliente...</span>
+      </div>
+      } @else {
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Sección: Información -->
+        <div class="form-section">
+          <div class="section-label">
+            <i class="pi pi-info-circle"></i>
+            Información del cliente
+          </div>
+
+          <div class="field-group">
+            <label for="nombre">Nombre del cliente</label>
+            <input pInputText id="nombre" formControlName="nombre" placeholder="Ej: Juan Pérez"
+              [ngClass]="{'p-invalid': form.get('nombre')?.invalid && form.get('nombre')?.touched}" />
+            @if (form.get('nombre')?.invalid && form.get('nombre')?.touched) {
+            <small class="field-error">
+              <i class="pi pi-exclamation-circle"></i>
+              {{ form.get('nombre')?.errors?.['required'] ? 'El nombre es requerido' : 'Mínimo 3 caracteres' }}
+            </small>
+            }
+          </div>
+          <div class="field-group">
+            <label for="nombre">Correo Electrónico </label>
+            <input pInputText id="nombre" formControlName="email" placeholder="Ej: juan.perez@gmail.com"
+              [ngClass]="{'p-invalid': form.get('email')?.invalid && form.get('email')?.touched}" />
+            @if (form.get('email')?.invalid && form.get('email')?.touched) {
+            <small class="field-error">
+              <i class="pi pi-exclamation-circle"></i>
+              {{ form.get('email')?.errors?.['required'] ? 'El correo electrónico es requerido' : 'El correo electrónico
+              no es válido' }}
+            </small>
+            }
+          </div>
+          <div class="field-group">
+            <label for="nombre">Teléfono </label>
+            <input pInputText id="nombre" formControlName="telefono" placeholder="Ej: 09876544321"
+              [ngClass]="{'p-invalid': form.get('telefono')?.invalid && form.get('telefono')?.touched}" />
+            @if (form.get('telefono')?.invalid && form.get('telefono')?.touched) {
+            <small class="field-error">
+              <i class="pi pi-exclamation-circle"></i>
+              {{ form.get('telefono')?.errors?.['required'] ? 'El teléfono es requerido' : 'El teléfono no es válido' }}
+            </small>
+            }
+          </div>
+          <div class="field-group">
+            <label for="nombre">Activo </label>
+            <p-checkbox id="nombre" formControlName="activo" (onChange)="onChangeActivo()">
+              <ng-template #icon let-checked="checked" let-iconClass="class">
+                @if (checked) {
+                <svg data-p-icon="check" [class]="iconClass" />
+                } @else {
+                <svg data-p-icon="times" [class]="iconClass" />
+                }
+              </ng-template>
+            </p-checkbox>
+          </div>
+        </div>
+
+
+
+        <!-- Acciones -->
+        <div class="form-actions">
+          <p-button label="Cancelar" icon="pi pi-times" severity="secondary" [outlined]="true" type="button"
+            (onClick)="goBack()" />
+          <p-button [label]="isEdit ? 'Guardar cambios' : 'Crear producto'"
+            [icon]="isEdit ? 'pi pi-check' : 'pi pi-plus'" type="submit" [loading]="submitting"
+            [disabled]="form.invalid" styleClass="submit-btn" />
+        </div>
+
+      </form>
+      }
+
+    </div>
+  </div>
+</div>

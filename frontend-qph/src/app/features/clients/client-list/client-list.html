@@ -1,0 +1,98 @@
+<div class="list-page">
+  <p-toast />
+  <p-confirmDialog />
+
+  <div class="page-header">
+    <div class="header-left">
+      <div class="header-icon">
+        <i class="pi pi-box"></i>
+      </div>
+      <div class="header-text">
+        <h1>Clientes</h1>
+        <p>{{ clients.length }} cliente{{ clients.length !== 1 ? 's' : '' }} registrado{{ clients.length !== 1 ? 's' :
+          '' }}</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <p-button label="Nuevo Cliente" icon="pi pi-plus" styleClass="new-btn" (onClick)="goToCreate()" />
+      <p-button icon="pi pi-sign-out" [text]="true" severity="secondary" pTooltip="Cerrar sesión" tooltipPosition="left"
+        (onClick)="logout()" />
+    </div>
+  </div>
+
+  <div class="table-card">
+    <p-table [value]="clients" [loading]="loading" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]"
+      styleClass="p-datatable-sm" [tableStyle]="{ 'min-width': '48rem' }" [rowHover]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id" style="width: 80px">
+            ID <p-sortIcon field="id" />
+          </th>
+          <th pSortableColumn="nombre">
+            Nombre <p-sortIcon field="nombre" />
+          </th>
+          <th pSortableColumn="email" style="width: 160px">
+            Correo <p-sortIcon field="email" />
+          </th>
+          <th pSortableColumn="telefono" style="width: 120px">
+            Teléfono <p-sortIcon field="telefono" />
+          </th>
+          <th pSortableColumn="activo" style="width: 120px">
+            Activo <p-sortIcon field="activo" />
+          </th>
+          <th pSortableColumn="fecharegistro" style="width: 120px">
+            Fecha de Registro <p-sortIcon field="fecharegistro" />
+          </th>
+          <th style="width: 120px; text-align: center">Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-client>
+        <tr>
+          <td>
+            <span class="id-badge">#{{ client.id }}</span>
+          </td>
+          <td>
+            <div class="product-name">
+              <i class="pi pi-tag"></i>
+              {{ client.nombre }}
+            </div>
+          </td>
+          <td>
+            <span class="price-value">{{ client.email }}</span>
+          </td>
+          <td>
+            <span class="price-value">{{ client.telefono }}</span>
+          </td>
+          <td>
+            <span class="price-value">{{ client.activo ? 'Activo' : 'Inactivo' }}</span>
+          </td>
+          <td>
+            <span class="price-value">{{ client.fecharegistro | date:'dd/MM/yyyy HH:mm' }}</span>
+          </td>
+
+          <td>
+            <div class="action-buttons">
+              <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="info" pTooltip="Editar"
+                (onClick)="goToEdit(client.id)" />
+              <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" pTooltip="Eliminar"
+                (onClick)="confirmDelete(client)" />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5">
+            <div class="empty-state">
+              <i class="pi pi-inbox"></i>
+              <span>No hay clientes registrados</span>
+              <p-button label="Crear primer cliente" icon="pi pi-plus" [text]="true" (onClick)="goToCreate()" />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
